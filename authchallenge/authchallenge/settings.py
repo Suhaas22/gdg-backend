@@ -7,7 +7,7 @@ import environ
 import os
 from datetime import timedelta
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Initialise environment variables
@@ -15,19 +15,22 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
-# Read from .env if present
+# Read from .env if present (optional for local dev)
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY
 SECRET_KEY = env("SECRET_KEY")
+DEBUG = env.bool("DEBUG", default=False)
 
-DEBUG = env("DEBUG")
-
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])
+# Hosts
+ALLOWED_HOSTS = env.list(
+    "ALLOWED_HOSTS",
+    default=["gdg-backend-1ccq.onrender.com"]  # Render service domain
+)
 
 CSRF_TRUSTED_ORIGINS = env.list(
     "CSRF_TRUSTED_ORIGINS",
-    default=["https://your-project-name.onrender.com"]
+    default=["https://gdg-backend-1ccq.onrender.com"]
 )
 
 # Application definition
@@ -47,6 +50,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # serves static files in prod
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -61,7 +65,7 @@ CORS_ALLOWED_ORIGINS = env.list(
     default=[
         "http://localhost:5173",
         "http://127.0.0.1:5173",
-        "https://your-frontend.example.com",
+        # Add frontend URL here if applicable
     ],
 )
 CORS_ALLOW_CREDENTIALS = True
@@ -85,7 +89,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "authchallenge.wsgi.application"
 
-# Database (reads from DATABASE_URL in env)
+# Database
 DATABASES = {
     "default": env.db(
         default="postgresql://authchallenge_db_user:PrsilfOsuBpQhZui0NNsgEnZtyXdIJaM@dpg-d2lfhfje5dus738ov2s0-a.oregon-postgres.render.com:5432/authchallenge_db"
@@ -117,7 +121,7 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default PK field
@@ -134,14 +138,14 @@ SIMPLE_JWT = {
     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
 }
 
-# Cookies (override in env for prod)
-JWT_COOKIE_SECURE = env.bool("JWT_COOKIE_SECURE", default=False)
-JWT_COOKIE_SAMESITE = env("JWT_COOKIE_SAMESITE", default="None")
+# Cookies
+JWT_COOKIE_SECURE = env.bool("JWT_COOKIE_SECURE", default=True)
+JWT_COOKIE_SAMESITE = env("JWT_COOKIE_SAMESITE", default="Lax")
 JWT_COOKIE_DOMAIN = env("JWT_COOKIE_DOMAIN", default=None)
 JWT_ACCESS_COOKIE_NAME = "access"
 JWT_REFRESH_COOKIE_NAME = "refresh"
 
 # CSRF
-CSRF_COOKIE_SECURE = env.bool("CSRF_COOKIE_SECURE", default=False)
-CSRF_COOKIE_SAMESITE = env("CSRF_COOKIE_SAMESITE", default="None")
+CSRF_COOKIE_SECURE = env.bool("CSRF_COOKIE_SECURE", default=True)
+CSRF_COOKIE_SAMESITE = env("CSRF_COOKIE_SAMESITE", default="Lax")
 CSRF_COOKIE_HTTPONLY = env.bool("CSRF_COOKIE_HTTPONLY", default=False)
