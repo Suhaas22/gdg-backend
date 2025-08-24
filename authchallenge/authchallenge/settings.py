@@ -25,13 +25,24 @@ DEBUG = env.bool("DEBUG", default=False)
 # Hosts
 ALLOWED_HOSTS = env.list(
     "ALLOWED_HOSTS",
-    default=["gdg-backend-1ccq.onrender.com"]  # Render service domain
+    default=[
+        ".onrender.com",  # allow any Render service domain
+        "localhost",
+        "127.0.0.1"
+    ]
 )
+
 
 CSRF_TRUSTED_ORIGINS = env.list(
     "CSRF_TRUSTED_ORIGINS",
-    default=["https://gdg-backend-1ccq.onrender.com"]
+    default=[
+        "https://gdg-backend-1ccq.onrender.com",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        # If you deploy frontend later, add its https:// URL here
+    ]
 )
+
 
 # Application definition
 INSTALLED_APPS = [
