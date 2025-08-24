@@ -22,6 +22,10 @@ def debug_hosts(request):
     return JsonResponse({"ALLOWED_HOSTS": settings.ALLOWED_HOSTS})
 
 
+def root(request):
+    return JsonResponse({"message": "Backend is live!", "hosts": settings.ALLOWED_HOSTS})
+
+
 
 # ---------- Protected Views ----------
 class MeView(APIView):

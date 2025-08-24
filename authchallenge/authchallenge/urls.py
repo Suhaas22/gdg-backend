@@ -1,8 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
-from core.views import debug_hosts  
+from core.views import debug_hosts , root
 
 urlpatterns = [
+    path('', root), 
     path('admin/', admin.site.urls),
     path('api/', include('core.urls')),
         path("debug-hosts/", debug_hosts),

@@ -25,7 +25,8 @@ DEBUG = env.bool("DEBUG", default=False)
 # Hosts
 
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "gdg-backend-1ccq.onrender.com,localhost,127.0.0.1").split(",")
+ALLOWED_HOSTS = ["*"]
+
 
 
 
