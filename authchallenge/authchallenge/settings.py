@@ -106,7 +106,7 @@ DATABASES = {
 # DRF
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "yourapp.authentication.CookieJWTAuthentication",   # new
+        "core.authentication.CookieJWTAuthentication",   # new
         "rest_framework_simplejwt.authentication.JWTAuthentication",  # keep as fallback
     ],
 }
