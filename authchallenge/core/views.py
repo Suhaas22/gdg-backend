@@ -15,6 +15,13 @@ import base64
 
 from .serializers import RegisterSerializer, UserSerializer
 
+from django.http import JsonResponse
+from django.conf import settings
+
+def debug_hosts(request):
+    return JsonResponse({"ALLOWED_HOSTS": settings.ALLOWED_HOSTS})
+
+
 
 # ---------- Protected Views ----------
 class MeView(APIView):
