@@ -23,14 +23,10 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env.bool("DEBUG", default=False)
 
 # Hosts
-ALLOWED_HOSTS = env.list(
-    "ALLOWED_HOSTS",
-    default=[
-        ".onrender.com",  # allow any Render service domain
-        "localhost",
-        "127.0.0.1"
-    ]
-)
+
+
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "gdg-backend-1ccq.onrender.com,localhost,127.0.0.1").split(",")
+
 
 
 CSRF_TRUSTED_ORIGINS = env.list(
